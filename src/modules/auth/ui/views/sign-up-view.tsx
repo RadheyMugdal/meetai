@@ -17,8 +17,8 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { OctagonAlertIcon } from "lucide-react";
+import { FaGoogle, FaGithub } from "react-icons/fa";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -35,7 +35,6 @@ const formSchema = z
   });
 
 const SignUpView = () => {
-  const route = useRouter();
   const [error, setError] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(false);
 
@@ -57,11 +56,31 @@ const SignUpView = () => {
         name: data.name,
         email: data.email,
         password: data.password,
+        callbackURL: "/",
       },
       {
         onSuccess(context) {
           setLoading(false);
-          route.push("/");
+        },
+        onError(context) {
+          setLoading(false);
+          setError(context.error.message);
+        },
+      }
+    );
+  };
+
+  const onSocial = async (provider: "google" | "github") => {
+    setError(null);
+    setLoading(true);
+    authClient.signIn.social(
+      {
+        provider,
+        callbackURL: "/",
+      },
+      {
+        onSuccess(context) {
+          setLoading(false);
         },
         onError(context) {
           setLoading(false);
@@ -184,16 +203,22 @@ const SignUpView = () => {
                     variant={"outline"}
                     className=" w-full"
                     disabled={loading}
+                    onClick={() => {
+                      onSocial("google");
+                    }}
                   >
-                    Google
+                    <FaGoogle />
                   </Button>
                   <Button
                     type="button"
                     variant={"outline"}
                     className=" w-full"
                     disabled={loading}
+                    onClick={() => {
+                      onSocial("github");
+                    }}
                   >
-                    Github
+                    <FaGithub />
                   </Button>
                 </div>
                 <div className=" text-center text-sm">
