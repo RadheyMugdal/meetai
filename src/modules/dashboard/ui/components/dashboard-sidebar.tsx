@@ -50,7 +50,7 @@ const DashboardSidebar = () => {
           <p className=" text-2xl  font-semibold">MeetAi</p>
         </Link>
       </SidebarHeader>
-      <div className=" px-4 py-2">
+      <div className=" flex-1 px-4 py-2">
         <Separator className=" opacity-10 text-[#5D6B68]" />
         <SidebarContent>
           <SidebarGroup>
@@ -109,10 +109,10 @@ const DashboardSidebar = () => {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
-        <SidebarFooter className=" text-white">
-          <DashboardUserButton />
-        </SidebarFooter>
       </div>
+      <SidebarFooter className=" text-white">
+        <DashboardUserButton />
+      </SidebarFooter>
     </Sidebar>
   );
 };
