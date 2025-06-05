@@ -1,3 +1,4 @@
+"use client";
 import ErrorState from "@/components/error-state";
 import LoadingState from "@/components/loading-state";
 import ResponsiveDialog from "@/components/responsive-dialog";
@@ -10,18 +11,7 @@ const AgentsView = () => {
   const trpc = useTRPC();
   const { data } = useSuspenseQuery(trpc.agents.getMany.queryOptions());
 
-  return (
-    <div>
-      <ResponsiveDialog
-        title="Responsive test"
-        description="This is a test"
-        open={true}
-        onOpenChange={() => {}}
-      >
-        <Button>Some action</Button>
-      </ResponsiveDialog>
-    </div>
-  );
+  return <div></div>;
 };
 
 export default AgentsView;
