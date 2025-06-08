@@ -12,6 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   ChevronRightIcon,
   MoreVerticalIcon,
@@ -19,6 +20,7 @@ import {
   TrashIcon,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 interface Props {
   agentId: string;
@@ -43,7 +45,7 @@ const AgentIdViewHeader = ({ agentId, agentName, onEdit, onRemove }: Props) => {
           <BreadcrumbItem>
             <BreadcrumbLink
               asChild
-              className=" font-medium text-x; text-foreground"
+              className=" font-medium text-xl text-foreground"
             >
               <Link href={`/agents/${agentId}`}>{agentName}</Link>
             </BreadcrumbLink>
