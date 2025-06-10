@@ -10,6 +10,7 @@ import {
   MIN_PAGE_SIZE,
 } from "@/constants";
 import { TRPCError } from "@trpc/server";
+import { meetingsInsertSchema, meetingsUpdateSchema } from "../schemas";
 
 export const meetingsRouter = createTRPCRouter({
   getOne: protectedProcedure
@@ -23,7 +24,10 @@ export const meetingsRouter = createTRPCRouter({
         .from(meetings)
         .where(and(eq(meetings.id, id), eq(meetings.userId, ctx.auth.user.id)));
       if (!existingMeeting)
-        throw new TRPCError({ code: "NOT_FOUND", message: "Agent not found." });
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Meeting not found.",
+        });
       return existingMeeting;
     }),
   getMany: protectedProcedure
@@ -71,5 +75,38 @@ export const meetingsRouter = createTRPCRouter({
         total: total.count,
         totalPages,
       };
+    }),
+  create: protectedProcedure
+    .input(meetingsInsertSchema)
+    .mutation(async ({ input, ctx }) => {
+      const { name, agentId } = input;
+      const { auth } = ctx;
+      const [data] = await db
+        .insert(meetings)
+        .values({
+          name,
+          agentId,
+          userId: auth.user.id,
+        })
+        .returning();
+      return data;
+    }),
+  update: protectedProcedure
+    .input(meetingsUpdateSchema)
+    .mutation(async ({ input, ctx }) => {
+      const [updatedMeeting] = await db
+        .update(meetings)
+        .set(input)
+        .where(
+          and(eq(meetings.id, input.id), eq(meetings.userId, ctx.auth.user.id))
+        )
+        .returning();
+      if (!updatedMeeting) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Meeting not found",
+        });
+      }
+      return updatedMeeting;
     }),
 });
