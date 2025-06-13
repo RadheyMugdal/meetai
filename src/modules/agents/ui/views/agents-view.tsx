@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useTRPC } from "@/trpc/client";
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import React from "react";
-import { DataTable } from "../components/data.table";
+import { DataTable } from "../../../../components/data.table";
 import { columns } from "../components/colums";
 import EmptyState from "@/components/empty-state";
 import { AgentGetOne } from "../../types";

@@ -66,7 +66,8 @@ const CommandSelect = ({
           {options.map((option) => (
             <CommandItem
               key={option.id}
-              onClick={() => {
+              value={option.value}
+              onSelect={() => {
                 onSelect(option.value);
                 setOpen(false);
               }}

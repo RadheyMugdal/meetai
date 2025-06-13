@@ -1,4 +1,4 @@
-import MeetingsListHeader from "@/modules/home/ui/components/meetings-list-header";
+import MeetingsListHeader from "@/modules/meetings/ui/components/meetings-list-header";
 import MeetingsView, {
   MeetingsViewError,
   MeetingsViewLoading,
@@ -15,11 +15,11 @@ const MeetingsPage = async () => {
     <>
       <MeetingsListHeader />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Suspense fallback={<MeetingsViewLoading />}>
-          <ErrorBoundary fallback={<MeetingsViewError />}>
+        <ErrorBoundary fallback={<MeetingsViewError />}>
+          <Suspense fallback={<MeetingsViewLoading />}>
             <MeetingsView />
-          </ErrorBoundary>
-        </Suspense>
+          </Suspense>
+        </ErrorBoundary>
       </HydrationBoundary>
     </>
   );
