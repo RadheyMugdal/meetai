@@ -7,14 +7,32 @@ import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import React from "react";
 import { columns, Meeting } from "../components/colums";
 import { MeetingGetMany } from "../../types";
+import { useRouter } from "next/navigation";
+import { useMeetingsFilters } from "../../hooks/use-meetings-filter";
+import DataPagination from "../components/data-pagination";
 
 const MeetingsView = () => {
+  const router = useRouter();
+  const [filters, setFilters] = useMeetingsFilters();
   const trpc = useTRPC();
-  const { data } = useSuspenseQuery(trpc.meetings.getMany.queryOptions({}));
+  const { data } = useSuspenseQuery(
+    trpc.meetings.getMany.queryOptions({
+      ...filters,
+    })
+  );
 
   return (
     <div>
-      <DataTable data={data?.items as Meeting[]} columns={columns} />
+      <DataTable
+        data={data?.items as Meeting[]}
+        columns={columns}
+        onRowClick={(row) => router.push(`/meetings/${row.id}`)}
+      />
+      <DataPagination
+        page={filters.page}
+        totalPages={data.totalPages}
+        onPageChange={(page) => setFilters({ page })}
+      />
     </div>
   );
 };
