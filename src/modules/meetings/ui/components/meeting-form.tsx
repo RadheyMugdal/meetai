@@ -29,11 +29,13 @@ import NewAgentDialog from "@/modules/agents/ui/components/new-agent-dialog";
 interface MeetingFormProps {
   onSuccess?: (id?: string) => void;
   onError?: () => void;
+  onCancel?: () => void;
   initialValues?: MeetingGetOne;
 }
 
 const MeetingForm = ({
   onError,
+  onCancel,
   onSuccess,
   initialValues,
 }: MeetingFormProps) => {
@@ -89,7 +91,6 @@ const MeetingForm = ({
       agentId: initialValues?.agentId ?? "",
     },
   });
-  const onCancel = () => {};
   const isEdit = !!initialValues?.id;
   const isPending = createMeeting.isPending || updateMeeting.isPending;
   const onSubmit = (values: z.infer<typeof meetingsInsertSchema>) => {
@@ -170,7 +171,7 @@ const MeetingForm = ({
                 variant={"ghost"}
                 disabled={isPending}
                 type="button"
-                onClick={() => onCancel()}
+                onClick={() => onCancel?.()}
               >
                 Cancel
               </Button>
