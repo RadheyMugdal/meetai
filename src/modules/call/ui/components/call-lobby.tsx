@@ -11,7 +11,6 @@ import {
 import { authClient } from "@/lib/auth-client";
 import { generateAvatarUri } from "@/lib/avatar";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 type Props = {
   onJoin: () => void;
@@ -74,9 +73,7 @@ const CallLobby = ({ onJoin }: Props) => {
             <ToggleVideoPreviewButton />
           </div>
           <div className="flex gap-x-2 justify-between w-full">
-            <Button asChild variant={"ghost"}>
-              <Link href={"/meetings"}>Cancel</Link>
-            </Button>
+            <Button onClick={() => {}}> Cancel</Button>
             <Button onClick={onJoin}> Join call</Button>
           </div>
         </div>
