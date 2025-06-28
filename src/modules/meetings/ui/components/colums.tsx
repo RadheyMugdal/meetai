@@ -17,16 +17,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { act } from "react";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+import { cn, formatDuration } from "@/lib/utils";
 export type Meeting = MeetingGetMany[number];
-
-function formatDuration(seconds: number) {
-  return humanizeDuration(seconds * 1000, {
-    round: true,
-    largest: 1,
-    units: ["h", "m", "s"],
-  });
-}
 
 const statusIconMap = {
   upcoming: ClockArrowUpIcon,
