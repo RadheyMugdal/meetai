@@ -18,6 +18,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import DashboardUserButton from "../../dashboard-user-button";
+import DashboardTrial from "./dashboard-trial";
 
 const firstSection = [
   {
@@ -111,6 +112,7 @@ const DashboardSidebar = () => {
         </SidebarContent>
       </div>
       <SidebarFooter className=" text-white">
+        <DashboardTrial />
         <DashboardUserButton />
       </SidebarFooter>
     </Sidebar>
