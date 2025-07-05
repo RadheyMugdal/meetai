@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { authClient } from "@/lib/auth-client";
+import { customer, signOut, useSession } from "@/lib/auth-client";
 import { ChevronDownIcon, CreditCardIcon, LogOutIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -27,13 +27,13 @@ import React from "react";
 const DashboardUserButton = () => {
   const router = useRouter();
   const isMobile = useIsMobile();
-  const { data, isPending } = authClient.useSession();
+  const { data, isPending } = useSession();
   if (isPending || !data?.user) {
     return null;
   }
 
   const onLogout = async () => {
-    await authClient.signOut({
+    await signOut({
       fetchOptions: {
         onSuccess(context) {
           router.push("/sign-in");
@@ -67,7 +67,7 @@ const DashboardUserButton = () => {
             <DrawerDescription>{data.user.email}</DrawerDescription>
           </DrawerHeader>
           <DrawerFooter>
-            <Button variant={"outline"} onClick={() => {}}>
+            <Button variant={"outline"} onClick={() => customer.portal()}>
               <CreditCardIcon className=" size-4 text-black" />
               Billing
             </Button>
@@ -110,7 +110,10 @@ const DashboardUserButton = () => {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className=" cursor-pointer flex items-center justify-between">
+        <DropdownMenuItem
+          className=" cursor-pointer flex items-center justify-between"
+          onClick={() => customer.portal()}
+        >
           Billing
           <CreditCardIcon className=" size-4" />
         </DropdownMenuItem>

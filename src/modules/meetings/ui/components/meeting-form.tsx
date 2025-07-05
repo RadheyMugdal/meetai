@@ -57,11 +57,16 @@ const MeetingForm = ({
         await queryClient.invalidateQueries(
           trpc.meetings.getMany.queryOptions({})
         );
+        await queryClient.invalidateQueries(
+          trpc.premium.getFreeUsage.queryOptions()
+        );
         onSuccess?.(data?.id);
       },
       onError: (error) => {
         toast.error(error.message);
-        // TODO: check if error  code is forbidden redirect to upgrade
+        if (error.data?.code === "FORBIDDEN") {
+          router.push("/upgrade");
+        }
       },
     })
   );
@@ -76,11 +81,11 @@ const MeetingForm = ({
             trpc.meetings.getOne.queryOptions({ id: initialValues.id })
           );
         }
+
         onSuccess?.();
       },
       onError: (error) => {
         toast.error(error.message);
-        // TODO: check if error  code is forbidden redirect to upgrade
       },
     })
   );

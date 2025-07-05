@@ -39,11 +39,16 @@ const AgentForm = ({ onError, onSuccess, initialValues }: AgentFormProps) => {
         await queryClient.invalidateQueries(
           trpc.agents.getMany.queryOptions({})
         );
+        await queryClient.invalidateQueries(
+          trpc.premium.getFreeUsage.queryOptions()
+        );
         onSuccess?.();
       },
       onError: (error) => {
         toast.error(error.message);
-        // TODO: check if error  code is forbidden redirect to upgrade
+        if (error.data?.code === "FORBIDDEN") {
+          router.push("/upgrade");
+        }
       },
     })
   );
@@ -62,7 +67,6 @@ const AgentForm = ({ onError, onSuccess, initialValues }: AgentFormProps) => {
       },
       onError: (error) => {
         toast.error(error.message);
-        // TODO: check if error  code is forbidden redirect to upgrade
       },
     })
   );
